@@ -14,9 +14,9 @@ class CategoriaProdutoController extends Controller
      */
     public function index()
     {
-        $CategoriaProdutos = CategoriaProduto::latest()->paginate(5);
+        $CategoriaProdutos = CategoriaProduto::all();
 
-        return view('categorias.index', [ 'CategoriaProdutos' => $CategoriaProdutos]);
+        return view('categorias.index', ['CategoriaProdutos' => $CategoriaProdutos]);
     }
 
     /**
@@ -38,12 +38,12 @@ class CategoriaProdutoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required'
-        ]);
+            'nome_categoria' => 'required'
+        ]);       
 
         CategoriaProduto::create($request->all());
 
-        return redirect()->route('CategoriaProdutos.index')
+        return redirect('categoria')
             ->with('success', 'CategoriaProduto created successfully.');
     }
 
@@ -53,9 +53,11 @@ class CategoriaProdutoController extends Controller
      * @param  \App\Models\CategoriaProduto  $CategoriaProduto
      * @return \Illuminate\Http\Response
      */
-    public function show(CategoriaProduto $CategoriaProduto)
+    public function show(int $id_categoria_produto)
     {
-        return view('CategoriaProdutos.show', compact('CategoriaProduto'));
+        $categoria_produto = CategoriaProduto::find($id_categoria_produto);
+        
+        return view('categorias.show', [ 'categoria_produto' => $categoria_produto]);
     }
 
     /**
@@ -64,10 +66,17 @@ class CategoriaProdutoController extends Controller
      * @param  \App\Models\CategoriaProduto  $CategoriaProduto
      * @return \Illuminate\Http\Response
      */
-    public function edit(CategoriaProduto $CategoriaProduto)
+    public function edit(int $id_categoria_produto)
     {
-        return view('CategoriaProdutos.edit', compact('CategoriaProduto'));
+        $categoria_produto = CategoriaProduto::find($id_categoria_produto);
+
+        if(!$categoria_produto){
+            abort(404);
+        }
+
+        return view('categorias.edit', [ 'categoria_produto' => $categoria_produto]);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -75,18 +84,17 @@ class CategoriaProdutoController extends Controller
      * @param  \App\Models\CategoriaProduto  $CategoriaProduto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CategoriaProduto $CategoriaProduto)
+    public function update(Request $request, int $id_categoria_produto)
     {
         $request->validate([
-            'name' => 'required',
-            'introduction' => 'required',
-            'location' => 'required',
-            'cost' => 'required'
+            'nome_categoria' => 'required',
         ]);
-        $CategoriaProduto->update($request->all());
+        
+        $categoria_produto = CategoriaProduto::find($id_categoria_produto);
+        $categoria_produto->update($request->all());
 
-        return redirect()->route('CategoriaProdutos.index')
-            ->with('success', 'CategoriaProduto updated successfully');
+        return redirect('categoria')
+            ->with('success', 'CategoriaProduto editado com sucesso');
     }
     /**
      * Remove the specified resource from storage.
@@ -94,11 +102,12 @@ class CategoriaProdutoController extends Controller
      * @param  \App\Models\CategoriaProduto  $CategoriaProduto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CategoriaProduto $CategoriaProduto)
+    public function destroy(int $id_categoria_produto)
     {
-        $CategoriaProduto->delete();
+        $categoria_produto = CategoriaProduto::find($id_categoria_produto);
+        $categoria_produto->delete();
 
-        return redirect()->route('CategoriaProdutos.index')
-            ->with('success', 'CategoriaProduto deleted successfully');
+        return redirect('categoria')
+            ->with('success', 'CategoriaProduto deletado com sucesso!');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\CategoriaProduto;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
@@ -14,7 +15,9 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        //
+        $produtos = Produto::all();
+
+        return view('produtos.index', ['produtos' => $produtos]);
     }
 
     /**
@@ -24,7 +27,9 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        //
+        $CategoriaProdutos = CategoriaProduto::all();
+
+        return view('produtos.create',  ['CategoriaProdutos' => $CategoriaProdutos]);
     }
 
     /**
@@ -35,7 +40,24 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $now = date("Y-m-d H:i:s"); 
+
+        $request->validate([
+            'id_categoria_produto' => 'required',
+            'nome_produto' => 'required|max:150',
+            'valor_produto' => 'required|numeric'
+        ]);       
+       
+        $produto = new Produto;
+        $produto->id_produto = $request->id_produto;
+        $produto->id_categoria_produto = $request->id_categoria_produto;
+        $produto->data_cadastro = $now;
+        $produto->nome_produto = $request->nome_produto;
+        $produto->valor_produto = $request->valor_produto;
+        $produto->save();
+
+        return redirect('produto')
+            ->with('success', 'Produto criado com sucesso.');
     }
 
     /**
@@ -44,9 +66,11 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function show(Produto $produto)
+    public function show(int $id_produto)
     {
-        //
+        $produto = Produto::find($id_produto);
+
+        return view('produtos.show', ['produto' => $produto]);
     }
 
     /**

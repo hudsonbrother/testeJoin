@@ -79,9 +79,17 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produto $produto)
+    public function edit(int $id_produto)
     {
-        //
+        $produto = Produto::find($id_produto);
+        $CategoriaProdutos = CategoriaProduto::all();
+
+        
+        if(!$produto){
+            abort(404);
+        }
+
+        return view('produtos.edit', [ 'CategoriaProdutos' => $CategoriaProdutos, 'produto' => $produto]);
     }
 
     /**
@@ -91,9 +99,24 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produto $produto)
+    public function update(Request $request, int $id_produto)
     {
-        //
+        $request->validate([
+            'id_categoria_produto' => 'required',
+            'nome_produto' => 'required|max:150',
+            'valor_produto' => 'required|numeric'
+        ]);   
+        
+        $produto = Produto::find($id_produto);
+
+        $produto->id_categoria_produto = $request->id_categoria_produto;
+        $produto->nome_produto = $request->nome_produto;
+        $produto->valor_produto = $request->valor_produto;
+
+        $produto->update();
+
+        return redirect('produto')
+            ->with('success', 'Produto criado com sucesso.');
     }
 
     /**
@@ -102,8 +125,12 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Produto $produto)
+    public function destroy(int $id_produto)
     {
-        //
+        $produto = Produto::find($id_produto);
+        $produto->delete();
+
+        return redirect('produto')
+            ->with('success', 'Produto deletado com sucesso!');
     }
 }

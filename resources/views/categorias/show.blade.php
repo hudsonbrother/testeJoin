@@ -23,7 +23,7 @@
                         <form action="/categoria/{{  $categoria_produto->id_categoria_produto }}" method="POST">
                             <input type="hidden" name="_method" value="delete">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="submit" name="name" class="btn btn-danger"value="Apagar">
+                            <input type="submit" name="name" class="btn btn-dea"value="Apagar">
                         </form>    
                     </td>
                 </tbody>

@@ -26,7 +26,7 @@
                     <td scope="row">{{ $produto->valor_produto }}</td>
                     <td><a href="{{ $produto->id_produto }}/edit" class="btn btn-success">Editar</a></td>
                     <td>
-                        <form action="/categoria/{{  $produto->id_produto }}" method="POST">
+                        <form action="/produto/{{  $produto->id_produto }}" method="POST">
                             <input type="hidden" name="_method" value="delete">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="submit" name="name" class="btn btn-danger"value="Apagar">

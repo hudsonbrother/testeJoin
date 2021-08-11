@@ -12,25 +12,27 @@
         
         <table class="table table-hover">
             <thead>
-                <th scope="col">id_produto</th>
-                <th scope="col">id_categoria_produto</th>
-                <th scope="col">data_cadastro</th>
-                <th scope="col">nome_produto</th>
-                <th scope="col">valor_produto</th>
+                <th scope="col">Id do produto</th>
+                <th scope="col">Nome da Categoria</th>
+                <th scope="col">Data do Cadastro</th>
+                <th scope="col">Nome do produto</th>
+                <th scope="col">Valor do produto</th>
                 <th scope="col">Selecionar</th>
             </thead>
             <tbody >
-        @forelse ($produtos as $produto)
+    @forelse ($produtos as $produto)
                    <td scope="row">{{ $produto->id_produto }}</td>
-                   <td>{{ $produto->id_categoria_produto }}</td>
-                   <td>{{ $produto->data_cadastro }}</td>
+                    @foreach($produto->CategoriaProdutos as $f)       
+                        <td>{{ $f['nome_categoria'] }}</td>
+                    @endforeach
+                   <td>{{ date('d/m/Y H:i:s', strtotime($produto->data_cadastro)) }} - utc</td>
                    <td>{{ $produto->nome_produto }}</td>
                    <td>{{ $produto->valor_produto }}</td>
-                   <td><a href="{{ route('produto.show', $produto->id_produto) }}" class="btn btn-info">Produto</a></td>
+                   <td><a href="{{ route('produto.show', $produto->id_produto) }}" class="btn btn-info">Contato</a></td>
                 </tbody>
-        @empty
-            </table>
-            <div>Ainda não temos Produtos</div>
-        @endforelse
+    @empty
+        </table>
+        <div>Ainda não temos Produtos</div>
+    @endforelse
     </div>
 @endsection

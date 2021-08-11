@@ -11,5 +11,10 @@ class Produto extends Model
     public $timestamps = false; // Indicates if the model should be timestamped.
 
     protected $fillable = ['id_categoria_produto', 'data_cadastro', 'nome_produto', 'valor_produto'];
+
+    public function CategoriaProdutos()
+    {
+        return $this->hasMany(CategoriaProduto::class, 'id_categoria_produto', 'id_categoria_produto');
+    } 
 }
  

@@ -23,10 +23,21 @@
 <body class="bg-grey-lighter">
     <div id="app">
         <nav class="navbar navbar-dark bg-dark">
-            <div class="container link-danger">
-                <h1>
-                    Hudson Join Teste 
-                </h1>
+            <div class="container">
+                <div class="col-md-10">
+                    <h2 class="link-danger">Hudson Join Teste</h2>                   
+                </div>
+
+                <div class="col-md-2 navbar-expand" >
+                    <ul class="navbar-text navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('produto.index') }}">Produto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('categoria.index') }}">Categoria</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             
         </nav>

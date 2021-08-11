@@ -3,25 +3,25 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12 col-md-offset-2">
             <h1>Página de detalhe</h1>
 
             <table class="table">
                 <thead>
-                    <th scope="col">id_produto</th>
-                    <th>id_categoria_produto</th>
-                    <th>data_cadastro</th>
-                    <th>nome_produto</th>
-                    <th>valor_produto</th>
+                    <th>Id do produto</th>
+                    <th>Nome da Categoria</th>
+                    <th>Data do Cadastro</th>
+                    <th>Nome do produto</th>
+                    <th>Valor do produto</th>
+                    <th>Selecionar</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
-
                 </thead>
                 <tbody>
                     <td scope="row">{{ $produto->id_produto }}</td>
-                    <td scope="row">{{ $produto->id_categoria_produto }}</td>
-                    <td scope="row">{{ $produto->data_cadastro }}</td>
+                    @foreach($produto->CategoriaProdutos as $f)       
+                        <td>{{ $f['nome_categoria'] }}</td>
+                    @endforeach
+                    <td>{{ date('d/m/Y H:i:s', strtotime($produto->data_cadastro)) }} - utc</td>
                     <td scope="row">{{ $produto->nome_produto }}</td>
                     <td scope="row">{{ $produto->valor_produto }}</td>
                     <td><a href="{{ $produto->id_produto }}/edit" class="btn btn-success">Editar</a></td>
